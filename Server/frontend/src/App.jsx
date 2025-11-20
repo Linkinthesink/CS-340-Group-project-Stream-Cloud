@@ -38,7 +38,7 @@ function App() {
   return (
     <Routes>
       < Route element={<Layout />}>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<HomePage backendURL={backendURL}/>} />
         <Route path="/artists" element={<ArtistsPage backendURL={backendURL} setArtistToEdit={setArtistToEdit} />} />
         <Route path="/albums" element={<AlbumsPage backendURL={backendURL} />} />
         <Route path="/tracks" element={<TracksPage backendURL={backendURL} />} />

@@ -101,8 +101,8 @@ app.delete('/artists/:id', async (req, res) => {
         let id = req.params.id; 
         id = id.replace(":", "");  // Remove leading colon if present
         console.log(id);    
-        const query1 = `DELETE FROM artists WHERE artistID = ?;`;
-        const [result] = await db.query(query1, [id]);
+        const query1 = `CALL DeleteArtist(?);`;
+        const [result] = await db.query(query1, [parseInt(id)]);
         console.log(result);
         // Return 204 No Content on success
         if (result.affectedRows > 0) {
@@ -387,6 +387,25 @@ app.delete('/platforms/:id', async (req, res) => {
         console.error('Error deleting platform:', error);
         res.status(500).send('An error occurred while executing the database queries.');
     }
+});
+
+
+
+// ########################################
+// ########## Reset DB
+
+app.get('/reset', async (req, res) => {
+    try {
+        console.log("Received request to reset database");
+        const query = `CALL ResetStreamCloud();`;
+        const [result] = await db.query(query);
+        if (result.affectedRows > 0) res.status(200).json({ updated: true });
+        else res.status(400).json({ error: 'An error occurred while executing the database queries.' });
+    } catch (error) {
+        console.error('Error resetting db:', error);
+        res.status(500).send('An error occurred while executing the database queries.');
+    }
+
 });
 
 
