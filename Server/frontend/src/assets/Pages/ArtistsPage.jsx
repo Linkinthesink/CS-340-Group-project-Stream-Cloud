@@ -47,7 +47,7 @@ function ArtistsPage({ backendURL, setArtistToEdit }) {
     const navigate = useNavigate();
     const onEdit = (artist) =>{
         // pass the artist via route state to avoid timing issues with setState + navigate
-        navigate('/edit-artist', { state: artist });
+        navigate('/artist/edit', { state: artist });
     }
 
 
@@ -58,26 +58,27 @@ function ArtistsPage({ backendURL, setArtistToEdit }) {
 
     return (
         <>
-            <h1>Artists</h1>
+            <div class="table-container">
+                <table class="page">
+                    <thead>
+                        <tr>
+                            <th>Artist</th>
+                            <th>Genre</th>
+                            <th>Label</th>
+                            <th>
+                                <Link to="/artist/add">
+                                <button>Add</button>
+                                </Link>
+                            </th>
+                        </tr>
+                    </thead>
 
-            <table>
-                <thead>
-                    <tr>
-                        <th>Artist</th>
-                        <th>Genre</th>
-                        <th>Label</th>
-                        <th>
-                            <Link to="/add-artist">
-                            <button>Add</button>
-                            </Link>
-                        </th>
-                    </tr>
-                </thead>
+                    <tbody>
+                    <ArtistTable artists={artists} onDelete={onDelete} onEdit={onEdit}></ArtistTable>
+                    </tbody>
+                </table>
+            </div>
 
-                <tbody>
-                <ArtistTable artists={artists} onDelete={onDelete} onEdit={onEdit}></ArtistTable>
-                </tbody>
-            </table>
                
         </>
     );

@@ -6,13 +6,13 @@ function Track({ track, available, onDelete, onEdit}) {
 
     return (
         <tr className='track'>
-            <td>{track.albumTitle || ''}</td>
+            <td>{track.albumTitle}</td>
             <td>{track.trackTitle}</td>
-            <td>{track.releaseDate}</td>
-            <td>Available on<MdMusicVideo onClick={e => {e.preventDefault(); available(track)}}/>&nbsp;</td>
+            <td>{track.releaseDate.split('T')[0]}</td>
+            <td><MdMusicVideo id="icon" onClick={e => {e.preventDefault(); available(track)}} style={{ fontSize: 38 }}/>&nbsp;</td>
             <td>
-                <MdCreate onClick={e => {e.preventDefault(); onEdit(track)}}/>&nbsp;
-                <MdOutlineRemoveCircle onClick={e => {e.preventDefault(); onDelete(track.trackID, track.trackTitle)}}/>
+                <MdCreate id="icon" onClick={e => {e.preventDefault(); onEdit(track)}}/>&nbsp;
+                <MdOutlineRemoveCircle id="icon" onClick={e => {e.preventDefault(); onDelete(track.trackID, track.trackTitle)}}/>
             </td>
         </tr>
     );

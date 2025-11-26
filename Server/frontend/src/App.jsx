@@ -11,6 +11,7 @@ import {ArtistsPage} from './assets/Pages/ArtistsPage';
 import {AlbumsPage} from './assets/Pages/AlbumsPage';
 import {TracksPage} from './assets/Pages/TracksPage';
 import {PlatformsPage} from './assets/Pages/PlatformsPage'
+import {AvailabilitySelectPage} from './assets/Pages/AvailabilitySelectPage'
 
 import {EditTrackPage} from './assets/Pages/Edit/EditTrack'
 import {EditArtistPage} from './assets/Pages/Edit/EditArtist'
@@ -22,7 +23,7 @@ import {AddArtistPage} from './assets/Pages/Add/AddArtist'
 import {AddAlbumPage} from './assets/Pages/Add/AddAlbum'
 import {AddPlatformPage} from './assets/Pages/Add/AddPlatform'
 
-import {TrackAvailability} from './assets/Components/TracksComponents/TrackAvailability'
+import {TrackAvailability} from './assets/Components/AvailabilityComponents/TrackAvailability'
 import {EditAvalabilityPage} from './assets/Pages/Edit/EditAvalability'
 import {AddAvailabilityPage} from './assets/Pages/Add/AddAvailability'
 
@@ -43,19 +44,22 @@ function App() {
         <Route path="/albums" element={<AlbumsPage backendURL={backendURL} />} />
         <Route path="/tracks" element={<TracksPage backendURL={backendURL} />} />
         <Route path="/platforms" element={<PlatformsPage backendURL={backendURL} />} />
+        <Route path="/avilabilityselect" element={<AvailabilitySelectPage backendURL={backendURL} />} />  // Changed to
 
 
-        <Route path="/edit-album" element={<EditAlbumPage backendURL={backendURL} />} />
-        <Route path="/edit-artist" element={<EditArtistPage artistToEdit={artistToEdit} backendURL={backendURL} />} />
-        <Route path="/edit-track" element={<EditTrackPage backendURL={backendURL} />} />
-        <Route path="/edit-platform" element={<EditPlatformPage backendURL={backendURL} />} />
-        <Route path="/edit-availability" element={<EditAvalabilityPage backendURL={backendURL} />} />
+        <Route path="/artist/edit" element={<EditArtistPage artistToEdit={artistToEdit} backendURL={backendURL} />} />
+        <Route path="/album/edit" element={<EditAlbumPage backendURL={backendURL} />} />
+        <Route path="/track/edit" element={<EditTrackPage backendURL={backendURL} />} />
+        <Route path="/platform/edit" element={<EditPlatformPage backendURL={backendURL} />} />
+        <Route path="/availability/edit" element={<EditAvalabilityPage backendURL={backendURL} />} />
 
+
+
+        <Route path="/artist/add" element={<AddArtistPage backendURL={backendURL}/>} />
+        <Route path="/album/add" element={<AddAlbumPage backendURL={backendURL}/>} />
+        <Route path="/track/add" element={<AddTrackPage backendURL={backendURL} />} />
+        <Route path="/platform/add" element={<AddPlatformPage backendURL={backendURL} />} />
         
-        <Route path="/add-track" element={<AddTrackPage backendURL={backendURL} />} />
-        <Route path="/add-platform" element={<AddPlatformPage backendURL={backendURL} />} />
-        <Route path="/add-album" element={<AddAlbumPage backendURL={backendURL}/>} />
-        <Route path="/add-artist" element={<AddArtistPage backendURL={backendURL}/>} />
 
         <Route path="/availability" element={<TrackAvailability availability={availability} backendURL={backendURL}/>} />
         <Route path="/edit-availability" element={<EditAvalabilityPage backendURL={backendURL} />} />

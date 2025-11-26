@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import AvailabilityTable from '../AvalabilityTable';
+import AvailabilityTable from '../AvailabilityComponents/AvalabilityTable';
 
 export function TrackAvailability({ backendURL, trackToEdit }) {
     const [trackTitle, setTrackTitle] = useState('');
@@ -61,24 +61,24 @@ export function TrackAvailability({ backendURL, trackToEdit }) {
         navigate('/add-availability', { state: track });
     }
 
+
+
     return (
-        <div>
-            <h1>Track Availability</h1>
-            <table className="page">
+        <div class="table-container">
+            <table className="refrenceElement">
                 <thead>
                     <tr>
                         <th>Track Title</th>
                         <th>Album</th>
                         <th>Release Date</th>
-                        <th>
-                        </th>
+
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td>{track.trackTitle}</td>
-                        <td>{track.albumTitle || ''}</td>
-                        <td>{track.releaseDate}</td>
+                        <td>{track.albumTitle}</td>
+                        <td>{track.releaseDate.split('T')[0]}</td>
                     </tr>
                 </tbody>
             </table>
@@ -95,7 +95,6 @@ export function TrackAvailability({ backendURL, trackToEdit }) {
                 </thead>
                 <tbody>
                     <AvailabilityTable availabilities={availabilities} onDelete={onDelete} onEdit={onEdit}/>
-
                 </tbody>
             </table>
         </div>

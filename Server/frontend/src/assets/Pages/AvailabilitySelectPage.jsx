@@ -1,9 +1,9 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import TrackTable from '../Components/TracksComponents/TrackTable';
+import AvailabilitySelectTable from '../Components/AvailabilityComponents/AvailabilitySelectTable';
 
 
-export function TracksPage ({ backendURL }) {
+export function AvailabilitySelectPage ({ backendURL }) {
     const [tracks, setTracks] = useState([]);
     const navigate = useNavigate();
 
@@ -50,19 +50,11 @@ export function TracksPage ({ backendURL }) {
                 <table class="page">
                     <thead>
                         <tr>
-                            <th>Album</th>
-                            <th>Track</th>
-                            <th>Release Date</th>
-                            <th>Available on</th>
-                            <th>
-                                <Link to="/track/add">
-                                    <button>Add</button>
-                                </Link>
-                            </th>
+                            <th>Select Track to view availability </th>
                         </tr>
                     </thead>
                     <tbody>
-                        <TrackTable tracks={tracks} available={available} onDelete={onDelete} onEdit={onEdit} />
+                        <AvailabilitySelectTable tracks={tracks} available={available} />
                     </tbody>
                 </table>
             </div>

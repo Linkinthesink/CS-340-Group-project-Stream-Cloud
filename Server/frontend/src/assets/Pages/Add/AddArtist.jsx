@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 
 export function AddArtistPage ({ backendURL }) {
@@ -8,7 +9,9 @@ export function AddArtistPage ({ backendURL }) {
     const [genre, setGenre] = useState('');
     const [label, setLabel] = useState('');
 
-    const addArtist = async () => {
+    const navigate = useNavigate();
+
+    const submit = async () => {
         const newArtist = {name, genre, label}
         const response = await fetch(
             backendURL + '/artists', {
@@ -30,8 +33,8 @@ export function AddArtistPage ({ backendURL }) {
 
 
     return (
-        <div>
-            <table className="page">
+        <div class="table-container">
+            <table class="page">
                 <thead>
                     <tr>
                         <th>Artist</th>
@@ -40,39 +43,35 @@ export function AddArtistPage ({ backendURL }) {
                     </tr>
                 </thead>
                 <tbody>
-                    <td className = 'edit' >
-                        <input
-                            type="text"
-                            placeholder="Enter name here"
-                            value={name}
-                            onChange={e => setName(e.target.value)} />
-                    </td>
-                    <td className = 'edit' >
-                        <input
-                            type="text"
-                            placeholder="Enter genre here"
-                            value={genre}
-                            onChange={e => setGenre(e.target.value)} />
-                    </td>
-                    <td className = 'Label' >
-                        <input
-                            type="text"
-                            placeholder="Enter label here"
-                            value={label}
-                            onChange={e => setLabel(e.target.value)} />
-                    </td>
-
-
-                    <td>
-                        <Link to="/artists">
-                            <button
-                                onClick={addArtist}
-                            >Add</button>
-                        </Link>
-                    </td>
+                    <tr>    
+                        <td class = 'edit' >
+                            <input
+                                type="text"
+                                placeholder="Enter name here"
+                                value={name}
+                                onChange={e => setName(e.target.value)} />
+                        </td>
+                        <td class = 'edit' >
+                            <input
+                                type="text"
+                                placeholder="Enter genre here"
+                                value={genre}
+                                onChange={e => setGenre(e.target.value)} />
+                        </td>
+                        <td class = 'Label' >
+                            <input
+                                type="text"
+                                placeholder="Enter label here"
+                                value={label}
+                                onChange={e => setLabel(e.target.value)} />
+                        </td>
+                    </tr>
                 </tbody>
             </table> 
-
+            <div>
+                <button onClick={submit}>Add</button>    
+                <button onClick={() => navigate('/artists')}>Cancel</button>
+            </div>
         </div>
 
         

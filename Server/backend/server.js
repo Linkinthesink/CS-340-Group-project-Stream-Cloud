@@ -141,7 +141,7 @@ app.post('/albums', async (req, res) => {
     try {
         const body = req.body;
         const query = `INSERT INTO albums (albumTitle, releaseDate, genre, artistID) VALUES (?, ?, ?, ?);`;
-        const [result] = await db.query(query, [body.albumTitle, body.releaseDate, body.genre, body.artistID]);
+        const [result] = await db.query(query, [body.albumTitle, String(body.releaseDate), body.genre, body.artistID]);
         res.status(201).json({ insertedId: result.insertId });
     } catch (error) {
         console.error('Error creating album:', error);

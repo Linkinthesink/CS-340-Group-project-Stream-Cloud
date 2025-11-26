@@ -12,6 +12,7 @@ export function EditTrackPage({ backendURL, trackToEdit }) {
     const trackFromState = location?.state;
     const track = trackFromState || trackToEdit;
 
+
     useEffect(() => {
         if (!track) {
             navigate('/tracks');
@@ -59,9 +60,8 @@ export function EditTrackPage({ backendURL, trackToEdit }) {
     if (!track) return null;
 
     return (
-        <div>
-            <h1>Edit Track</h1>
-            <table className="page">
+        <div class="table-container">
+            <table className="refrenceElement">
                 <thead>
                     <tr>
                         <th>Track Title</th>
@@ -73,19 +73,13 @@ export function EditTrackPage({ backendURL, trackToEdit }) {
                     <tr>
                         <td>{track.trackTitle}</td>
                         <td>{track.albumTitle || ''}</td>
-                        <td>{track.releaseDate}</td>
+                        <td>{track.releaseDate.split('T')[0]}</td>
                     </tr>
                 </tbody>
             </table>
 
-            <table className="page">
-                <thead>
-                    <tr>
-                        <th>Track Title</th>
-                        <th>Album</th>
-                        <th>Release Date</th>
-                    </tr>
-                </thead>
+            <table class="page">
+
                 <tbody>
                     <tr>
                         <td><input type="text" placeholder="Track Title" value={trackTitle} onChange={e => setTrackTitle(e.target.value)} /></td>
@@ -98,12 +92,13 @@ export function EditTrackPage({ backendURL, trackToEdit }) {
                             </select>
                         </td>
                         <td><input type="date" value={releaseDate} onChange={e => setReleaseDate(e.target.value)} /></td>
-                        <td>
-                            <button onClick={submit}>Submit</button>
-                        </td>
                     </tr>
                 </tbody>
             </table>
+            <div>
+                <button onClick={submit}>Update</button>
+                <button onClick={() => navigate('/tracks')}>Cancel</button>
+            </div>
         </div>
     );
 }

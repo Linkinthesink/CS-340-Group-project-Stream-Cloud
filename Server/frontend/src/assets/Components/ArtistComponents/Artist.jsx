@@ -10,8 +10,8 @@ function Artist({ artist, onDelete, onEdit}) {
             <td>{artist.genre} </td>
             <td>{artist.label} </td>
             <td>
-                <MdCreate onClick={e => {e.preventDefault(); onEdit(artist)}}/>&nbsp;
-                <MdOutlineRemoveCircle onClick={e => {e.preventDefault(); onDelete(artist.artistID, artist.artistName)}}/>
+                <MdCreate id="icon" onClick={e => {e.preventDefault(); onEdit(artist)}}/>&nbsp;
+                <MdOutlineRemoveCircle id="icon" onClick={e => {e.preventDefault(); onDelete(artist.artistID, artist.artistName)}}/>
             </td>
         </tr>
     );

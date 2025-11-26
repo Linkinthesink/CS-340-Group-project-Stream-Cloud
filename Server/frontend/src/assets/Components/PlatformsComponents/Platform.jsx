@@ -9,8 +9,8 @@ function Platform({ platform, onDelete, onEdit}) {
             <td>{platform.platformName}</td>
             <td>{platform.country}</td>
             <td>
-                <MdCreate onClick={e => {e.preventDefault(); onEdit(platform)}}/>&nbsp;
-                <MdOutlineRemoveCircle onClick={e => {e.preventDefault(); onDelete(platform.platformID, platform.platformName)}}/>
+                <MdCreate id="icon" onClick={e => {e.preventDefault(); onEdit(platform)}}/>&nbsp;
+                <MdOutlineRemoveCircle id="icon" onClick={e => {e.preventDefault(); onDelete(platform.platformID, platform.platformName)}}/>
             </td>
         </tr>
     );

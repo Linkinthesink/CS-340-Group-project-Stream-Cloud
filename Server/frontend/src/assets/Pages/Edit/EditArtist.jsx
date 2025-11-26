@@ -43,30 +43,53 @@ export function EditArtistPage ({ artistToEdit, backendURL }) {
     };
 
     return (
-        <div>
-            <div className="page">
-                <h1>Edit Artist</h1>
-                <input
-                    type="text"
-                    value={name}
-                    onChange={e => setName(e.target.value)} /> <br/>
+        <div class="table-container">
+            <table className="refrenceElement">
+                <thead>
+                    <tr>
+                        <th>Artist</th>
+                        <th>Genre</th>
+                        <th>Label</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{artist.artistName}</td>
+                        <td>{artist.genre}</td>
+                        <td>{artist.label}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="page">
+                <tbody>
+                    <tr>
+                        <td>
+                            <input
+                            type="text"
+                            value={name}
+                            onChange={e => setName(e.target.value)} /> 
+                        </td>
+                        <td>
+                            <input
+                            type="text"
+                            value={genre}
+                            onChange={e => setGenre(e.target.value)} /> 
+                        </td>
+                        <td>
+                            <input
+                            type="text"
+                            size="11"
+                            value={label}
+                            onChange={e => setLabel(e.target.value)} />
+                        </td>
+                    </tr>
 
-                <input
-                    type="text"
-                    value={genre}
-                    onChange={e => setGenre(e.target.value)} /> <br/>
-
-                <input
-                    type="text"
-                    size="11"
-                    value={label}
-                    onChange={e => setLabel(e.target.value)} />
-
-                <div style={{ marginTop: 8 }}>
+                </tbody>
+                <div>
                     <button onClick={editArtist}>Update</button>
                     <Link to="/artists" style={{ marginLeft: 8 }}><button>Cancel</button></Link>
                 </div>
-            </div>
+            </table>
 
         </div>
     );

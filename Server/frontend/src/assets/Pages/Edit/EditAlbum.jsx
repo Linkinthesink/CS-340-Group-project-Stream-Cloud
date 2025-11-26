@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 
+
 export function EditAlbumPage ({ backendURL, albumToEdit }) {
+
     const navigate = useNavigate();
     const location = useLocation();
     const albumFromState = location?.state;
@@ -16,6 +18,7 @@ export function EditAlbumPage ({ backendURL, albumToEdit }) {
     const [artists, setArtists] = useState([]);
 
     const submit = async () => {
+        console.log("relseade date", releaseDate)
         if (!album) return;
         const id = album.albumID ?? album.id;
         try {
@@ -55,8 +58,8 @@ export function EditAlbumPage ({ backendURL, albumToEdit }) {
     }, [backendURL, album, artistID]);
 
     return (
-        <div>
-            <table className="page">
+        <div class="table-container">
+            <table className="refrenceElement">
                 <thead>
                     <tr>
                         <th>Album</th>
@@ -66,26 +69,17 @@ export function EditAlbumPage ({ backendURL, albumToEdit }) {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr className='collection-item'>
-                        <td>{album?.albumTitle}</td>
-                        <td>{album?.releaseDate}</td>
-                        <td>{album?.genre}</td>
-                        <td>{album?.artistName || ''}</td>
+                    <tr class='collection-item'>
+                        <td>{album.albumTitle}</td>
+                        <td>{album.releaseDate.split('T')[0]}</td>
+                        <td>{album.genre}</td>
+                        <td>{album.artistName || ''}</td>
                     </tr>
                 </tbody>
             </table> 
 
 
-            <table className="page">
-                <thead>
-                    <tr>
-                        <th>Album</th>
-                        <th>Release Date</th>
-                        <th>Genre</th>
-                        <th>Artist</th>
-                        <th />
-                    </tr>
-                </thead>
+            <table class="page">
                 <tbody>
                     <tr>
                         <td className = 'edit' >
@@ -94,7 +88,7 @@ export function EditAlbumPage ({ backendURL, albumToEdit }) {
                         </td>
                         <td className = 'edit' >
                             <label htmlFor="ReleaseDate"></label>
-                            <input type="text" id="ReleaseDate" name="ReleaseDate" placeholder="ReleaseDate" maxLength={20} value={releaseDate} onChange={e=>setReleaseDate(e.target.value)} required />
+                            <input type="date" id="ReleaseDate" name="ReleaseDate" placeholder="ReleaseDate" maxLength={20} value={releaseDate} onChange={e=>setReleaseDate(e.target.value)} required />
                         </td>
                         <td className = 'edit' >
                             <label htmlFor="Genre"></label>
@@ -109,14 +103,13 @@ export function EditAlbumPage ({ backendURL, albumToEdit }) {
                                 ))}
                             </select>
                         </td>
-
-                        <td>
-                            <button onClick={submit}>Submit</button>
-                            <Link to="/albums"><button>Cancel</button></Link>
-                        </td>
                     </tr>
                 </tbody>
             </table>
+            <div>
+                <button onClick={submit}>Update</button>
+                <Link to="/albums"><button>Cancel</button></Link>
+            </div>
         </div>
     );
 }

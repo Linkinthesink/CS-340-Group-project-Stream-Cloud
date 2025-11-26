@@ -2,11 +2,14 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 export function AddAvailabilityPage({ backendURL }) {
+
     const [platformID, setPlatformID] = useState('');
     const [url, setUrl] = useState('');
     const [platforms, setPlatforms] = useState([]);
+    
     const navigate = useNavigate();
     const location = useLocation();
+
 
 
     useEffect(() => {
@@ -37,10 +40,8 @@ export function AddAvailabilityPage({ backendURL }) {
     };
 
     return (
-        <div>
-            <h1>Add Availability</h1>
-
-            <table className="page">
+        <div class="table-container">
+            <table class="page">
                 <thead>
                     <tr>
                         <th>Platform</th>
@@ -57,13 +58,13 @@ export function AddAvailabilityPage({ backendURL }) {
                         <td>
                             <input type="text" placeholder="URL" value={url} onChange={e => setUrl(e.target.value)} />
                         </td>
-                        <td>
-                            <button onClick={submit}>Submit</button>
-                            &nbsp;
-                        </td>
                     </tr>
                 </tbody>
             </table>
+            <div>
+                <button onClick={submit}>Add</button>    
+                <button onClick={() => navigate('/availability')}>Cancel</button>
+            </div>
         </div>
     );
 }

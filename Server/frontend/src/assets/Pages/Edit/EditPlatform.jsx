@@ -42,9 +42,8 @@ export function EditPlatformPage({ backendURL, platformToEdit }) {
     if (!platform) return null;
 
     return (
-        <div>
-            <h1>Edit Platform</h1>
-            <table className="page">
+        <div class="table-container">
+            <table className="refrenceElement">
                 <thead>
                     <tr>
                         <th>Platform Name</th>
@@ -59,23 +58,19 @@ export function EditPlatformPage({ backendURL, platformToEdit }) {
                 </tbody>
             </table>
 
-            <table className="page">
-                <thead>
-                    <tr>
-                        <th>Platform Name</th>
-                        <th>Country</th>
-                    </tr>
-                </thead>
+            <table class="page">
+
                 <tbody>
                     <tr>
                         <td><input type="text" placeholder="Platform Name" value={platformName} onChange={e => setPlatformName(e.target.value)} /></td>
                         <td><input type="text" placeholder="Country" value={country} onChange={e => setCountry(e.target.value)} /></td>
-                        <td>
-                            <button onClick={submit}>Submit</button>
-                        </td>
                     </tr>
                 </tbody>
             </table>
+            <div>
+                <button onClick={submit}>Update</button>
+                <button onClick={() => navigate('/platforms')}>Cancel</button>
+            </div>
         </div>
     );
 }

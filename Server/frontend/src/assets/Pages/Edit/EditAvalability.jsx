@@ -57,9 +57,8 @@ export function EditAvalabilityPage({ backendURL, availabilityToEdit }) {
     };
 
     return (
-        <div>
-            <h1>Edit Availability</h1>
-            <table className="page">
+        <div class="table-container">
+            <table className="refrenceElement">
                 <thead>
                     <tr>
                         <th>Platform</th>
@@ -74,13 +73,7 @@ export function EditAvalabilityPage({ backendURL, availabilityToEdit }) {
                 </tbody>
             </table>
 
-            <table className="page">
-                <thead>
-                    <tr>
-                        <th>Platform</th>
-                        <th>URL</th>
-                    </tr>
-                </thead>
+            <table class="page">
                 <tbody>
                     <tr>
                         <td>
@@ -91,13 +84,13 @@ export function EditAvalabilityPage({ backendURL, availabilityToEdit }) {
                         <td>
                             <input type="text" placeholder="URL" value={url} onChange={e => setUrl(e.target.value)} />
                         </td>
-                        <td>
-                            <button onClick={submit}>Submit</button>
-                            &nbsp;
-                        </td>
                     </tr>
                 </tbody>
             </table>
+            <div>   
+                <button onClick={submit}>Submit</button>
+                <button onClick={() => navigate('/availability', { state: availability })}>Cancel</button>
+            </div>
         </div>
     );
 }

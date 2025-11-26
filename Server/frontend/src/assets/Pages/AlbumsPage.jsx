@@ -2,6 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import AlbumTable from '../Components/AlbumsComponents/AlbumTable';
 
+
 export function AlbumsPage ({ backendURL }) {
     const [albums, setAlbums] = useState([]);
     const navigate = useNavigate();
@@ -35,30 +36,31 @@ export function AlbumsPage ({ backendURL }) {
     };
 
     const onEdit = (album) => {
-        navigate('/edit-album', { state: album });
+        navigate('/album/edit', { state: album });
     };
 
     return (
         <>
-            <h1>Albums</h1>
-            <table className="page">
-                <thead>
-                    <tr>
-                        <th>Album</th>
-                        <th>Release Date</th>
-                        <th>Genre</th>
-                        <th>Artist</th>
-                        <th>
-                            <Link to="/add-album">
-                                <button>Add</button>
-                            </Link>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <AlbumTable albums={albums} onDelete={onDelete} onEdit={onEdit} />
-                </tbody>
-            </table>
+            <div class="table-container">
+                <table class="page">
+                    <thead>
+                        <tr>
+                            <th>Album</th>
+                            <th>Release Date</th>
+                            <th>Genre</th>
+                            <th>Artist</th>
+                            <th>
+                                <Link to="/album/add">
+                                    <button>Add</button>
+                                </Link>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <AlbumTable albums={albums} onDelete={onDelete} onEdit={onEdit} />
+                    </tbody>
+                </table>
+            </div>
         </>
     );
 }

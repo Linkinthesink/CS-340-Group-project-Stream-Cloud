@@ -2,13 +2,15 @@ import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
 export function AddAlbumPage ({ backendURL }) {
-    const navigate = useNavigate();
+
     const [albumTitle, setAlbumTitle] = useState('');
     const [releaseDate, setReleaseDate] = useState('');
     const [genre, setGenre] = useState('');
     const [artistID, setArtistID] = useState('');
     const [artists, setArtists] = useState([]);
     const [artist, setArtist] = useState('');
+
+    const navigate = useNavigate();
 
     const submit = async () => {
         try {
@@ -45,8 +47,8 @@ export function AddAlbumPage ({ backendURL }) {
     }, [backendURL]);
 
     return (
-        <div>
-            <table className="page">
+        <div class="table-container">
+            <table class="page">
                 <thead>
                     <tr>
                         <th>Album</th>
@@ -56,33 +58,36 @@ export function AddAlbumPage ({ backendURL }) {
                     </tr>
                 </thead>
                 <tbody>
-                    <td className = 'edit' >
-                        <label for="AlbumName"></label>
-                                                <input type="text" id="AlbumTitle" name="AlbumTitle" placeholder="Album Title" maxLength={50} value={albumTitle} onChange={e=>setAlbumTitle(e.target.value)} required />
-                    </td>
-                    <td className = 'edit' >
-                        <label for="ReleaseDate"></label>
-                        <input type="date" id="ReleaseDate" name="ReleaseDate" placeholder="ReleaseDate" maxlength="20" required></input>
-                    </td>
-                    <td className = 'edit' >
-                        <label htmlFor="Genre"></label>
-                        <input type="text" id="Genre" name="Genre" placeholder="Genre" maxLength={20} value={genre} onChange={e=>setGenre(e.target.value)} required />
-                    </td>
-                    <td className = 'edit' >
-                        <label htmlFor="ArtistSelect"></label>
-                        <select id="ArtistSelect" name="ArtistSelect" value={artistID} onChange={e => setArtistID(e.target.value)} required>
-                            <option value="">-- Select Artist --</option>
-                            {artists.map(a => (
-                                <option key={a.artistID} value={a.artistID}>{a.artistName}</option>
-                            ))}
-                        </select>
-                    </td>
+                    <tr>    
+                        <td class = 'edit' >
+                            <label for="AlbumName"></label>
+                                                    <input type="text" id="AlbumTitle" name="AlbumTitle" placeholder="Album Title" maxLength={50} value={albumTitle} onChange={e=>setAlbumTitle(e.target.value)} required />
+                        </td>
+                        <td class = 'edit' >
+                            <label for="ReleaseDate"></label>
+                            <input type="date" id="ReleaseDate" name="ReleaseDate" placeholder="ReleaseDate" maxlength="20" required></input>
+                        </td>
+                        <td class = 'edit' >
+                            <label htmlFor="Genre"></label>
+                            <input type="text" id="Genre" name="Genre" placeholder="Genre" maxLength={20} value={genre} onChange={e=>setGenre(e.target.value)} required />
+                        </td>
+                        <td class = 'edit' >
+                            <label htmlFor="ArtistSelect"></label>
+                            <select id="ArtistSelect" name="ArtistSelect" value={artistID} onChange={e => setArtistID(e.target.value)} required>
+                                <option value="">-- Select Artist --</option>
+                                {artists.map(a => (
+                                    <option key={a.artistID} value={a.artistID}>{a.artistName}</option>
+                                ))}
+                            </select>
+                        </td>
+                    </tr>
 
-                    <td>
-                        <button onClick={submit}>Submit</button>
-                    </td>
                 </tbody>
             </table> 
+            <div>
+                <button onClick={submit}>Add</button>    
+                <button onClick={() => navigate('/albums')}>Cancel</button>
+            </div>
         </div>
 
         

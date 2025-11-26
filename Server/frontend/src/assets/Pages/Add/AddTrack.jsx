@@ -43,9 +43,8 @@ export function AddTrackPage({ backendURL }) {
 }, [backendURL]);
 
     return (
-        <div>
-            <h1>Add Track</h1>
-            <table className="page">
+        <div class="table-container">
+            <table class="page">
                 <thead>
                     <tr>
                         <th>Album</th>
@@ -65,12 +64,13 @@ export function AddTrackPage({ backendURL }) {
                         </td>
                         <td><input type="text" placeholder="Track Title" value={trackTitle} onChange={e => setTrackTitle(e.target.value)} /></td>
                         <td><input type="date" value={releaseDate} onChange={e => setReleaseDate(e.target.value)} /></td>
-                        <td>
-                            <button onClick={submit}>Submit</button>
-                        </td>
                     </tr>
                 </tbody>
             </table>
+            <div>
+                <button onClick={submit}>Add</button>    
+                <button onClick={() => navigate('/tracks')}>Cancel</button>
+            </div>
         </div>
     );
 }
