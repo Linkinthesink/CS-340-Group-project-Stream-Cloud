@@ -143,3 +143,19 @@ END //
 
 
 DELIMITER ;
+
+-- Create artist
+DELIMITER //
+
+CREATE PROCEDURE CreateArtist(
+    IN p_artistName VARCHAR(145),
+    IN p_genre VARCHAR(145),
+    IN p_label VARCHAR(145)
+)
+BEGIN
+    INSERT INTO artists (artistName, genre, label)
+    VALUES (p_artistName, p_genre, p_label);
+END //
+
+DELIMITER ;
+
