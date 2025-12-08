@@ -1,11 +1,18 @@
+/*
+App by Brandon Vang and Jonathan Davis
+Group 86 - Stream Cloud
+12/5/2025
+-- Citation for App file based on template provided here: https://canvas.oregonstate.edu/courses/2017561/pages/exploration-web-application-technology-2?module_item_id=25645131 --
+-- Ai Used for autofill suggestions, reviewed and modified by authors --
+*/
+
 import './App.css';
-import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { useState, useEffect } from 'react'; 
-import {Link} from "react-router-dom"
 
 import {Layout} from './Layout'
 
+
+// Main pages
 import {HomePage} from './assets/Pages/HomePage';
 import {ArtistsPage} from './assets/Pages/ArtistsPage';
 import {AlbumsPage} from './assets/Pages/AlbumsPage';
@@ -13,41 +20,41 @@ import {TracksPage} from './assets/Pages/TracksPage';
 import {PlatformsPage} from './assets/Pages/PlatformsPage'
 import {AvailabilitySelectPage} from './assets/Pages/AvailabilitySelectPage'
 
+// Edit pages
 import {EditTrackPage} from './assets/Pages/Edit/EditTrack'
 import {EditArtistPage} from './assets/Pages/Edit/EditArtist'
 import {EditAlbumPage} from './assets/Pages/Edit/EditAlbum'
 import {EditPlatformPage} from './assets/Pages/Edit/EditPlatform'
 
+// Add pages
 import {AddTrackPage} from './assets/Pages/Add/AddTrack'
 import {AddArtistPage} from './assets/Pages/Add/AddArtist'
 import {AddAlbumPage} from './assets/Pages/Add/AddAlbum'
 import {AddPlatformPage} from './assets/Pages/Add/AddPlatform'
 
+// Availability pages
 import {TrackAvailability} from './assets/Components/AvailabilityComponents/TrackAvailability'
 import {EditAvalabilityPage} from './assets/Pages/Edit/EditAvalability'
 import {AddAvailabilityPage} from './assets/Pages/Add/AddAvailability'
 
 // Define the backend port and URL for API requests
 const backendPort = 8885;  // Use the port you assigned to the backend server, this would normally go in .env file
-//const backendURL = `http://classwork.engr.oregonstate.edu:${backendPort}`;
 const backendURL = `http://classwork.engr.oregonstate.edu:${backendPort}`;
 
 function App() {
-
-    const [availability, artistToEdit, setArtistToEdit] = useState();
 
   return (
     <Routes>
       < Route element={<Layout />}>
         <Route path="/" element={<HomePage backendURL={backendURL}/>} />
-        <Route path="/artists" element={<ArtistsPage backendURL={backendURL} setArtistToEdit={setArtistToEdit} />} />
+        <Route path="/artists" element={<ArtistsPage backendURL={backendURL} />} />
         <Route path="/albums" element={<AlbumsPage backendURL={backendURL} />} />
         <Route path="/tracks" element={<TracksPage backendURL={backendURL} />} />
         <Route path="/platforms" element={<PlatformsPage backendURL={backendURL} />} />
-        <Route path="/avilabilityselect" element={<AvailabilitySelectPage backendURL={backendURL} />} />  // Changed to
+        <Route path="/avilabilityselect" element={<AvailabilitySelectPage backendURL={backendURL} />} />  
 
 
-        <Route path="/artist/edit" element={<EditArtistPage artistToEdit={artistToEdit} backendURL={backendURL} />} />
+        <Route path="/artist/edit" element={<EditArtistPage backendURL={backendURL} />} />
         <Route path="/album/edit" element={<EditAlbumPage backendURL={backendURL} />} />
         <Route path="/track/edit" element={<EditTrackPage backendURL={backendURL} />} />
         <Route path="/platform/edit" element={<EditPlatformPage backendURL={backendURL} />} />
@@ -61,7 +68,7 @@ function App() {
         <Route path="/platform/add" element={<AddPlatformPage backendURL={backendURL} />} />
         
 
-        <Route path="/availability" element={<TrackAvailability availability={availability} backendURL={backendURL}/>} />
+        <Route path="/availability" element={<TrackAvailability backendURL={backendURL}/>} />
         <Route path="/edit-availability" element={<EditAvalabilityPage backendURL={backendURL} />} />
         <Route path="/add-availability" element={<AddAvailabilityPage backendURL={backendURL} />} />
 
@@ -70,55 +77,3 @@ function App() {
   );
 
 } export default App;
-
-
-
-/*
-
-
-          <Route path="/add-album" element={<AddAlbumPage />} />
-          <Route path="/add-artist" element={<AddArtistPage />} />
-          <Route path="/add-track" element={<AddTrackPage />} />
-          <Route path="/add-platform" element={<AddPlatformPage />} />
-
-
-
-
-
-            <Route element={<Layout/>}>
-              <Route path="/" element={<HomePage />}></Route>
-              <Route path="/artists" element={<ArtistsPage backendURL={backendURL} />}></Route>
-            </Route>
-
-
-
-    // Set up a state variable `message` to store and display the backend response
-    const [message, setMessage] = useState([]);
-
-    // Get the data from the database
-    const getData = async function () {
-        if (message.length > 0) return; // Skip if data is already fetched
-        try {
-            // Make a GET request to the backend
-            const response = await fetch(backendURL);
-            
-            // Convert the response into JSON format
-            const rows = await response.json();
-            
-            // Update the message state with the response data
-            setMessage(JSON.stringify(rows));
-            
-        } catch (error) {
-          // If the API call fails, print the error to the console
-          console.log(error);
-        }
-    };
-
-    // Load table on page load
-    useEffect(() => {
-        getData();
-    }, []);
-
-
-
-*/

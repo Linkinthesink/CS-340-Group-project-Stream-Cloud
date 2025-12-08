@@ -1,38 +1,52 @@
+/*
+EditAlbum by Brandon Vang and Jonathan Davis
+Group 86 - Stream Cloud
+12/5/2025
+-- Citation for EditAlbum file based on template provided here: https://canvas.oregonstate.edu/courses/2017561/pages/exploration-web-application-technology-2?module_item_id=25645131 --
+-- Ai Used for autofill suggestions, reviewed and modified by authors --
+*/
+
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 
-
 export function EditAlbumPage ({ backendURL, albumToEdit }) {
+
+    const [albumTitle, setAlbumTitle] = useState('');
+    const [releaseDate, setReleaseDate] = useState('');
+    const [genre, setGenre] = useState('');
+    const [artistID, setArtistID] = useState('');
+    const [artists, setArtists] = useState([]);
 
     const navigate = useNavigate();
     const location = useLocation();
+
     const albumFromState = location?.state;
     const album = albumFromState || albumToEdit;
 
-    useEffect(() => { if (!album) navigate('/albums'); }, [album, navigate]);
-
-    const [albumTitle, setAlbumTitle] = useState(album?.albumTitle || '');
-    const [releaseDate, setReleaseDate] = useState(album?.releaseDate || '');
-    const [genre, setGenre] = useState(album?.genre || '');
-    const [artistID, setArtistID] = useState(album?.artistID || '');
-    const [artists, setArtists] = useState([]);
+    useEffect(() => {
+        if (!album) {
+            navigate('/albums');
+        } else {
+            setAlbumTitle(album.albumTitle || '');
+            setReleaseDate(album.releaseDate || '');
+            setGenre(album.genre || '');
+            setArtistID(album.artistID || '');
+        }
+    }, [album, navigate]);
 
     const submit = async () => {
-        console.log("relseade date", releaseDate)
-        if (!album) return;
-        const id = album.albumID ?? album.id;
+        e.preventDefault();
         try {
-            const response = await fetch((backendURL ? backendURL : '') + '/albums/' + id, {
+            const response = await fetch((backendURL) + '/albums/' + album.albumID, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ albumTitle, releaseDate, genre, artistID })
             });
             if (response.ok) {
-                alert('Album updated');
+                alert('Album updated successfully');
                 navigate('/albums');
             } else {
-                const text = await response.text();
-                alert('Update failed: ' + text);
+                alert('Failed to update album');
             }
         } catch (err) {
             console.error(err);
@@ -43,10 +57,9 @@ export function EditAlbumPage ({ backendURL, albumToEdit }) {
     useEffect(() => {
         const fetchArtists = async () => {
             try {
-                const res = await fetch((backendURL ? backendURL : '') + '/artists');
+                const res = await fetch((backendURL) + '/artists');
                 const data = await res.json();
                 setArtists(data.artist || []);
-                // ensure artistID is set if not already
                 if (!artistID && (album?.artistID || (data.artist && data.artist[0]?.artistID))) {
                     setArtistID(album?.artistID || (data.artist && data.artist[0]?.artistID) || '');
                 }
@@ -56,6 +69,8 @@ export function EditAlbumPage ({ backendURL, albumToEdit }) {
         };
         fetchArtists();
     }, [backendURL, album, artistID]);
+
+    if (!album) return null;
 
     return (
         <div class="table-container">

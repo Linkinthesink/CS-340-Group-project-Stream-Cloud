@@ -1,6 +1,13 @@
-import { Link } from 'react-router-dom';
+/*
+AddAvailability by Brandon Vang and Jonathan Davis
+Group 86 - Stream Cloud
+12/5/2025
+-- Citation for AddAvailability file based on template provided here: https://canvas.oregonstate.edu/courses/2017561/pages/exploration-web-application-technology-2?module_item_id=25645131 --
+-- Ai Used for autofill suggestions, reviewed and modified by authors --
+*/
+
 import { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
 export function AddArtistPage ({ backendURL }) {
@@ -12,21 +19,23 @@ export function AddArtistPage ({ backendURL }) {
     const navigate = useNavigate();
 
     const submit = async () => {
-        const newArtist = {name, genre, label}
-        const response = await fetch(
-            backendURL + '/artists', {
+        e.preventDefault();
+        try {
+            const response = await fetch((backendURL) + '/artists', {
                 method: 'POST',
-                headers: {'content-type': 'application/json'},
-                body: JSON.stringify(newArtist)
-                }
-        );
-        if(response.status === 201){
-            alert("Sucsessfully added artist");
-        } else{
-            alert(`Failed to add artist status ${response.status}`)
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, genre, label })
+            });
+            if (response.status === 201) {
+                alert('Artist added successfully');
+                navigate('/artists');
+            } else {
+                alert('Failed to add artist');
+            }
+        } catch (err) {
+            console.error(err);
+            alert('Add failed');
         }
-        navigate('/');
-
     };
 
 

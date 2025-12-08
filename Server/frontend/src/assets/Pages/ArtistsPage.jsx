@@ -1,60 +1,54 @@
+/*
+AvailabilitySelectPage by Brandon Vang and Jonathan Davis
+Group 86 - Stream Cloud
+12/5/2025
+-- Citation for AvailabilitySelectPage file based on template provided here: https://canvas.oregonstate.edu/courses/2017561/pages/exploration-web-application-technology-2?module_item_id=25645131 --
+-- Ai Used for autofill suggestions, reviewed and modified by authors --
+*/
+
 import { Link, useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';  // Importing useState for managing state in the component
+import { useEffect, useState } from 'react';
 import ArtistTable from '../Components/ArtistComponents/ArtistTable';
 
 
-function ArtistsPage({ backendURL, setArtistToEdit }) {
+export function ArtistsPage({ backendURL }) {
 
-    // Set up a state variable `people` to store and display the backend response
     const [artists, setArtist] = useState([]);
+    const navigate = useNavigate();
 
-
-    const getData = async function () {
+    const getData = async () => {
         try {
-            console.log("Fetching artists data...");
-            // Make a GET request to the backend
             const response = await fetch(backendURL + '/artists');
-            
-            // Convert the response into JSON format
             const {artist} = await response.json();
-    
-            // Update the people state with the response data
             setArtist(artist);
-            
-        } catch (error) {
-          // If the API call fails, print the error to the console
-          console.log(error);
+        } catch (err) {
+            console.error('Failed to fetch artists', err);
         }
-
     };
 
+    useEffect(() => { getData(); }, []);
 
-    const onDelete = async(id, name) =>{
-        if(window.confirm("Are you sure you want to delete?")){     //confimation popup to prevent accidental misclicks 
-            const response = await fetch(
-                backendURL + '/artists/' + id, 
-                {method: 'DELETE'}
-            );
-            if(response.status === 204){
-                setArtist(artists.filter(e => e.artistID !== id))
-                alert(`Deleted artist ${name}, id: ${id}`)
-            } else{
-                alert(`failed to delete artist ${name}, id: ${id} `)
+    const onDelete = async (id, name) => {
+        if (!window.confirm(`Delete artist ${name}?`)) return;
+        try {
+            const response = await fetch((backendURL) + '/artists/' + id, { method: 'DELETE' });
+            if (response.status === 204) {
+                setArtist(artists.filter(e => e.artistID !== id));
+                alert(`Deleted artist ${name}`);
+            } else {
+                alert('Failed to delete artist');
             }
+        } catch (err) {
+            console.error(err);
+            alert('Delete failed');
         }
-    }
+    };
 
-    const navigate = useNavigate();
+    
     const onEdit = (artist) =>{
-        // pass the artist via route state to avoid timing issues with setState + navigate
         navigate('/artist/edit', { state: artist });
     }
 
-
-    // Load table on page load
-    useEffect(() => {
-        getData();
-    }, []);
 
     return (
         <>
@@ -83,4 +77,3 @@ function ArtistsPage({ backendURL, setArtistToEdit }) {
         </>
     );
 }
-export { ArtistsPage };

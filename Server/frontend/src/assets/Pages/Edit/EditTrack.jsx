@@ -1,11 +1,21 @@
+/*
+EditTrack by Brandon Vang and Jonathan Davis
+Group 86 - Stream Cloud
+12/5/2025
+-- Citation for EditTrack file based on template provided here: https://canvas.oregonstate.edu/courses/2017561/pages/exploration-web-application-technology-2?module_item_id=25645131 --
+-- Ai Used for autofill suggestions, reviewed and modified by authors --
+*/
+
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 export function EditTrackPage({ backendURL, trackToEdit }) {
+
     const [trackTitle, setTrackTitle] = useState('');
     const [releaseDate, setReleaseDate] = useState('');
     const [albumID, setAlbumID] = useState('');
     const [albums, setAlbums] = useState([]);
+    
     const navigate = useNavigate();
     const location = useLocation();
     
@@ -26,7 +36,7 @@ export function EditTrackPage({ backendURL, trackToEdit }) {
     const submit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch((backendURL ? backendURL : '') + '/tracks/' + track.trackID, {
+            const response = await fetch((backendURL) + '/tracks/' + track.trackID, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ trackTitle, releaseDate, albumID })
@@ -46,7 +56,7 @@ export function EditTrackPage({ backendURL, trackToEdit }) {
     useEffect(() => {
         const fetchAlbums = async () => {
             try {
-                const res = await fetch((backendURL ? backendURL : '') + '/albums');
+                const res = await fetch((backendURL) + '/albums');
                 const data = await res.json();
                 setAlbums(data.albums || []);
                 if (!albumID && data.albums && data.albums.length > 0) setAlbumID(data.albums[0].albumID);

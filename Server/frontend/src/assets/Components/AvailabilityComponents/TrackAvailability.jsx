@@ -1,5 +1,13 @@
+/*
+TrackAvailability by Brandon Vang and Jonathan Davis
+Group 86 - Stream Cloud
+12/5/2025
+-- Citation for TrackAvailability file based on template provided here: https://canvas.oregonstate.edu/courses/2017561/pages/exploration-web-application-technology-2?module_item_id=25645131 --
+-- Ai Used for autofill suggestions, reviewed and modified by authors --
+*/
+
 import { useState, useEffect } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import AvailabilityTable from '../AvailabilityComponents/AvalabilityTable';
 
 export function TrackAvailability({ backendURL, trackToEdit }) {
@@ -54,14 +62,13 @@ export function TrackAvailability({ backendURL, trackToEdit }) {
             alert('Delete failed');
         }
     };
+
     const onEdit = (track) => {
         navigate('/edit-availability', { state: track });
     };
     const onAdd = (track) => {
         navigate('/add-availability', { state: track });
     }
-
-
 
     return (
         <div class="table-container">

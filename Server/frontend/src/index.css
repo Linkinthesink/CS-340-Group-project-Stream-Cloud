@@ -1,3 +1,12 @@
+/*
+CSS by Brandon Vang and Jonathan Davis
+Group 86 - Stream Cloud
+12/5/2025
+-- Citation for CSS file based on Vite default template --
+-- No Ai was used in the creation of this file --
+
+*/
+
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -5,8 +14,8 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: light-dark(#ffffff, #1a1a1a);;
-  background-image: url('./assets/Images/Perfect-Circles.png');
+  background-color: light-dark(#E6DBD0, #1A1D23);
+  transition: background-color 0.25s;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -14,13 +23,16 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
+@media (prefers-color-scheme: light) {
+    body {
+        background-image: url('./assets/Images/Perfect-Circles-Light.png'); /* Light mode specific image */
+    }
 }
-a:hover {
-  color: #535bf2;
+
+@media (prefers-color-scheme: dark) {
+    body {
+        background-image: url('./assets/Images/Perfect-Circles-Dark.png'); /* Dark mode specific image */
+    }
 }
 
 body {
@@ -29,11 +41,8 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
-}
+  filter: drop-shadow(0 0 10px #00000084);
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
 }
 
 button {
@@ -54,15 +63,3 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
-}

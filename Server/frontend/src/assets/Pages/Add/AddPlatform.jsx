@@ -1,3 +1,11 @@
+/*
+AddPlatform by Brandon Vang and Jonathan Davis
+Group 86 - Stream Cloud
+12/5/2025
+-- Citation for AddPlatform file based on template provided here: https://canvas.oregonstate.edu/courses/2017561/pages/exploration-web-application-technology-2?module_item_id=25645131 --
+-- Ai Used for autofill suggestions, reviewed and modified by authors --
+*/
+
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -5,12 +13,13 @@ export function AddPlatformPage({ backendURL }) {
     
     const [platformName, setPlatformName] = useState('');
     const [country, setCountry] = useState('');
+    
     const navigate = useNavigate();
 
     const submit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch((backendURL ? backendURL : '') + '/platforms', {
+            const response = await fetch((backendURL) + '/platforms', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ platformName, country })

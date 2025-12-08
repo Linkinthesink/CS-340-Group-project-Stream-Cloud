@@ -1,5 +1,10 @@
-// reactServer.cjs
-// Uses common JavaScript to serve the React build folder (/dist)
+/*
+reactServer by Brandon Vang and Jonathan Davis
+Group 86 - Stream Cloud
+12/5/2025
+-- Citation for reactServer file based on template provided here: https://canvas.oregonstate.edu/courses/2017561/pages/exploration-web-application-technology-2?module_item_id=25645131 --
+-- Ai was not used --
+*/
 
 const express = require('express');
 const path = require('path');

@@ -1,10 +1,20 @@
+/*
+EditAvailability by Brandon Vang and Jonathan Davis
+Group 86 - Stream Cloud
+12/5/2025
+-- Citation for EditAvailability file based on template provided here: https://canvas.oregonstate.edu/courses/2017561/pages/exploration-web-application-technology-2?module_item_id=25645131 --
+-- Ai Used for autofill suggestions, reviewed and modified by authors --
+*/
+
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 export function EditAvalabilityPage({ backendURL, availabilityToEdit }) {
+
     const [platformID, setPlatformID] = useState('');
     const [url, setUrl] = useState('');
     const [platforms, setPlatforms] = useState([]);
+
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -20,26 +30,10 @@ export function EditAvalabilityPage({ backendURL, availabilityToEdit }) {
         setUrl(availability.url || '');
     }, [availability, navigate]);
 
-    useEffect(() => {
-        const fetchPlatforms = async () => {
-            try {
-                const res = await fetch((backendURL ? backendURL : '') + '/platforms');
-                const data = await res.json();
-                setPlatforms(data.platforms || []);
-                if (!platformID && data.platforms && data.platforms.length > 0) setPlatformID(data.platforms[0].platformID);
-            } catch (err) {
-                console.error('Failed to fetch platforms', err);
-            }
-        };
-        fetchPlatforms();
-    }, [backendURL, platformID]);
-
-    if (!availability) return null;
-
     const submit = async (e) => {
         e.preventDefault();
         try {
-            const res = await fetch((backendURL ? backendURL : '') + `/tracks-availability/${availability.trackID}/${platformID}`, {
+            const res = await fetch((backendURL) + `/tracks-availability/${availability.trackID}/${platformID}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ url })
@@ -55,6 +49,8 @@ export function EditAvalabilityPage({ backendURL, availabilityToEdit }) {
             alert('Update failed');
         }
     };
+
+    if (!availability) return null;
 
     return (
         <div class="table-container">

@@ -1,5 +1,13 @@
-import { useNavigate } from 'react-router-dom';
+/*
+AddAlbum by Brandon Vang and Jonathan Davis
+Group 86 - Stream Cloud
+12/5/2025
+-- Citation for AddAlbum file based on template provided here: https://canvas.oregonstate.edu/courses/2017561/pages/exploration-web-application-technology-2?module_item_id=25645131 --
+-- Ai Used for autofill suggestions, reviewed and modified by authors --
+*/
+
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export function AddAlbumPage ({ backendURL }) {
 
@@ -8,37 +16,35 @@ export function AddAlbumPage ({ backendURL }) {
     const [genre, setGenre] = useState('');
     const [artistID, setArtistID] = useState('');
     const [artists, setArtists] = useState([]);
-    const [artist, setArtist] = useState('');
 
     const navigate = useNavigate();
 
     const submit = async () => {
         try {
-            const response = await fetch((backendURL ? backendURL : '') + '/albums', {
+            const response = await fetch((backendURL) + '/albums', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ albumTitle, releaseDate, genre, artistID })
             });
             if (response.status === 201) {
-                alert('Album added');
+                alert('Album added successfully');
                 navigate('/albums');
             } else {
-                const text = await response.text();
-                alert('Failed to add album: ' + text);
+                alert('Failed to add album');
             }
         } catch (err) {
             console.error(err);
-            alert('Request failed');
+            alert('Add failed');
         }
     };
 
     useEffect(() => {
         const fetchArtists = async () => {
             try {
-                const res = await fetch((backendURL ? backendURL : '') + '/artists');
+                const res = await fetch((backendURL) + '/artists');
                 const data = await res.json();
-                // backend returns { artist: [...] }
                 setArtists(data.artist || []);
+                if (data.artist && data.artist.length > 0) setArtistID(data.artist[0].artistID);
             } catch (err) {
                 console.error('Failed to fetch artists', err);
             }

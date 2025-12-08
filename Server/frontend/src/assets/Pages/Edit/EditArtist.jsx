@@ -1,45 +1,54 @@
+/*
+EditArtist by Brandon Vang and Jonathan Davis
+Group 86 - Stream Cloud
+12/5/2025
+-- Citation for EditArtist file based on template provided here: https://canvas.oregonstate.edu/courses/2017561/pages/exploration-web-application-technology-2?module_item_id=25645131 --
+-- Ai Used for autofill suggestions, reviewed and modified by authors --
+*/
+
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 export function EditArtistPage ({ artistToEdit, backendURL }) {
+
+    const [name, setName] = useState('');
+    const [genre, setGenre] = useState('');
+    const [label, setLabel] = useState('');
+
     const navigate = useNavigate();
     const location = useLocation();
 
-    // Prefer artist passed via route state, fallback to prop
     const artistFromState = location?.state;
     const artist = artistFromState || artistToEdit;
 
-    // If no artist was provided, send the user back to the artists list
     useEffect(() => {
-        if (!artist) navigate('/artists');
+        if (!artist) {
+            navigate('/tracks');
+            return;
+        }
+        setName(artist.artistName || '');
+        setGenre(artist.genre || '');
+        setLabel(artist.label || '');   
     }, [artist, navigate]);
 
-    const [name, setName] = useState(artist?.artistName || '');
-    const [genre, setGenre] = useState(artist?.genre || '');
-    const [label, setLabel] = useState(artist?.label || '');
-
-    const editArtist = async () => {
-        if (!artist) return;
-        const editedArtist = { artistName: name, genre, label };
-        const id = artist.artistID ?? artist.id;
-        const url = (backendURL ? backendURL : '') + '/artists/' + id;
+    const submit = async (e) => {
+        e.preventDefault();
         try {
-            const response = await fetch(url, {
+            const response = await fetch((backendURL) + '/artists/' + artist.artistID, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(editedArtist)
+                body: JSON.stringify({ artistName, genre, label })
             });
-            if (response.ok) {
-                alert('Successfully edited artist');
+            if (response.status === 200) {
+                alert('Artist updated successfully');
+                navigate('/artists');
             } else {
-                const text = await response.text();
-                alert(`Failed to edit artist: ${response.status} ${text}`);
+                alert('Failed to update artist');
             }
         } catch (err) {
             console.error(err);
-            alert('Failed to edit artist (network error)');
+            alert('Update failed');
         }
-        navigate('/artists');
     };
 
     return (
@@ -86,7 +95,7 @@ export function EditArtistPage ({ artistToEdit, backendURL }) {
 
                 </tbody>
                 <div>
-                    <button onClick={editArtist}>Update</button>
+                    <button onClick={submit}>Update</button>
                     <Link to="/artists" style={{ marginLeft: 8 }}><button>Cancel</button></Link>
                 </div>
             </table>

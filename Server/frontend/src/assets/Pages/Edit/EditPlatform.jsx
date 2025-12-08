@@ -1,9 +1,19 @@
+/*
+EditPlatform by Brandon Vang and Jonathan Davis
+Group 86 - Stream Cloud
+12/5/2025
+-- Citation for EditPlatform file based on template provided here: https://canvas.oregonstate.edu/courses/2017561/pages/exploration-web-application-technology-2?module_item_id=25645131 --
+-- Ai Used for autofill suggestions, reviewed and modified by authors --
+*/
+
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 export function EditPlatformPage({ backendURL, platformToEdit }) {
+
     const [platformName, setPlatformName] = useState('');
     const [country, setCountry] = useState('');
+
     const navigate = useNavigate();
     const location = useLocation();
     
@@ -22,7 +32,7 @@ export function EditPlatformPage({ backendURL, platformToEdit }) {
     const submit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch((backendURL ? backendURL : '') + '/platforms/' + platform.platformID, {
+            const response = await fetch((backendURL) + '/platforms/' + platform.platformID, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ platformName, country })

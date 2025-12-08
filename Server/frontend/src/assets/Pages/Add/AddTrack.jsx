@@ -1,7 +1,16 @@
+/*
+AddTrack by Brandon Vang and Jonathan Davis
+Group 86 - Stream Cloud
+12/5/2025
+-- Citation for AddTrack file based on template provided here: https://canvas.oregonstate.edu/courses/2017561/pages/exploration-web-application-technology-2?module_item_id=25645131 --
+-- Ai Used for autofill suggestions, reviewed and modified by authors --
+*/
+
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export function AddTrackPage({ backendURL }) {
+
     const [trackTitle, setTrackTitle] = useState('');
     const [releaseDate, setReleaseDate] = useState('');
     const [albumID, setAlbumID] = useState('');
@@ -11,7 +20,7 @@ export function AddTrackPage({ backendURL }) {
     const submit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch((backendURL ? backendURL : '') + '/tracks', {
+            const response = await fetch((backendURL) + '/tracks', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ albumID, trackTitle, releaseDate })
@@ -31,7 +40,7 @@ export function AddTrackPage({ backendURL }) {
     useEffect(() => {
     const fetchAlbums = async () => {
         try {
-            const res = await fetch((backendURL ? backendURL : '') + '/albums');
+            const res = await fetch((backendURL) + '/albums');
             const data = await res.json();
             setAlbums(data.albums || []);
             if (data.albums && data.albums.length > 0) setAlbumID(data.albums[0].albumID);

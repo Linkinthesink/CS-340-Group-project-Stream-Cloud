@@ -1,5 +1,13 @@
+/*
+AddAvailability by Brandon Vang and Jonathan Davis
+Group 86 - Stream Cloud
+12/5/2025
+-- Citation for AddAvailability file based on template provided here: https://canvas.oregonstate.edu/courses/2017561/pages/exploration-web-application-technology-2?module_item_id=25645131 --
+-- Ai Used for autofill suggestions, reviewed and modified by authors --
+*/
+
 import { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export function AddAvailabilityPage({ backendURL }) {
 
@@ -8,14 +16,11 @@ export function AddAvailabilityPage({ backendURL }) {
     const [platforms, setPlatforms] = useState([]);
     
     const navigate = useNavigate();
-    const location = useLocation();
-
-
 
     useEffect(() => {
         const fetchPlatforms = async () => {
             try {
-                const res = await fetch((backendURL ? backendURL : '') + '/platforms');
+                const res = await fetch((backendURL) + '/platforms');
                 const data = await res.json();
                 setPlatforms(data.platforms || []);
                 if (!platformID && data.platforms && data.platforms.length > 0) setPlatformID(data.platforms[0].platformID);
@@ -31,11 +36,20 @@ export function AddAvailabilityPage({ backendURL }) {
     const submit = async (e) => {
         e.preventDefault();
         try {
-            alert('Availability added');
-            navigate('/tracks');
+            const response = await fetch((backendURL) + '/platforms', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ platformID, url })
+            });
+            if (response.status === 201) {
+                alert('Availability added successfully');
+                navigate('/tracks');
+            } else {
+                alert('Failed to add availability');
+            }
         } catch (err) {
             console.error(err);
-            alert('Update failed');
+            alert('Add failed');
         }
     };
 
