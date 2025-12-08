@@ -3,7 +3,8 @@ Reset Procedure for Stream Cloud
 Brandon Vang & Jonathan Davis
 Group 86 - Stream Cloud
 Citation:
-prompt AI to help guide on creating a Reset SP for the database
+prompted chatgpt to help guide on creating a Reset SP for the database
+prompted chatgpt to help create CUD for artists table
 */
 
 DELIMITER //
@@ -159,3 +160,23 @@ END //
 
 DELIMITER ;
 
+-- update artist
+DELIMITER //
+
+CREATE PROCEDURE UpdateArtist(
+    IN p_artistID INT,
+    IN p_artistName VARCHAR(145),
+    IN p_genre VARCHAR(145),
+    IN p_label VARCHAR(145)
+)
+BEGIN
+    UPDATE artists
+    SET 
+        artistName = p_artistName,
+        genre      = p_genre,
+        label      = p_label
+    WHERE artistID = p_artistID;
+
+END //
+
+DELIMITER ;
