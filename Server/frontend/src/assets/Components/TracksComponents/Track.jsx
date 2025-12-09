@@ -20,7 +20,7 @@ function Track({ track, available, onDelete, onEdit}) {
             <td>
                 <div class="tooltip-container">
                     <MdMusicVideo id="icon" onClick={e => {e.preventDefault(); available(track)}} style={{ fontSize: 38 }}/>&nbsp;
-                    <span class="tooltip-text">Cehck Availability</span>
+                    <span class="tooltip-text">Check Availability</span>
                 </div>
 
             </td>

@@ -9,8 +9,10 @@ Group 86 - Stream Cloud
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
-export function EditAvalabilityPage({ backendURL, availabilityToEdit }) {
+export function EditAvalabilityPage({ backendURL }) {
 
+    const [tracks, setTracks] = useState([]);
+    const [trackID, setTrackID] = useState('');
     const [platformID, setPlatformID] = useState('');
     const [url, setUrl] = useState('');
     const [platforms, setPlatforms] = useState([]);
@@ -19,24 +21,44 @@ export function EditAvalabilityPage({ backendURL, availabilityToEdit }) {
     const location = useLocation();
 
     const availabilityFromState = location?.state;
-    const availability = availabilityFromState || availabilityToEdit;
+    const availability = availabilityFromState;
+
 
     useEffect(() => {
-        if (!availability) {
-            navigate('/tracks');
-            return;
-        }
+        const fetchPlatforms = async () => {
+            try {
+                const res = await fetch((backendURL) + '/platforms');
+                const data = await res.json();
+                setPlatforms(data.platforms || []);
+                if (!platformID && data.platforms && data.platforms.length > 0) setPlatformID(data.platforms[0].platformID);
+            } catch (err) {
+                console.error('Failed to fetch platforms', err);
+            }
+        };
+        fetchPlatforms();
         setPlatformID(availability.platformID || '');
         setUrl(availability.url || '');
     }, [availability, navigate]);
 
+    const fetchTracks = async () => {
+        try {
+            const response = await fetch((backendURL) + '/tracks');
+            const { tracks } = await response.json();
+
+            setTracks(tracks || []);
+        } catch (err) {
+            console.error('Failed to fetch tracks', err);
+        }
+    };
+    fetchTracks();
+
     const submit = async (e) => {
         e.preventDefault();
         try {
-            const res = await fetch((backendURL) + `/tracks-availability/${availability.trackID}/${platformID}`, {
+            const res = await fetch((backendURL) + `/tracks-availability/${availability.trackID}/${availability.platformID}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ url })
+                body: JSON.stringify({platformID, trackID, url })
             });
             if (res.status === 200) {
                 alert('Availability updated');
@@ -52,17 +74,21 @@ export function EditAvalabilityPage({ backendURL, availabilityToEdit }) {
 
     if (!availability) return null;
 
+    console.log(availability)
+
     return (
         <div class="table-container">
             <table className="refrenceElement">
                 <thead>
                     <tr>
+                        <th>Track</th>
                         <th>Platform</th>
                         <th>URL</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
+                        <td>{availability.trackTitle}</td>
                         <td>{availability.platformName}</td>
                         <td>{availability.url}</td>
                     </tr>
@@ -72,6 +98,11 @@ export function EditAvalabilityPage({ backendURL, availabilityToEdit }) {
             <table class="page">
                 <tbody>
                     <tr>
+                        <td>
+                            <select value={trackID} onChange={e => setTrackID(e.target.value)}>
+                                {tracks.map(t => <option key={t.trackID} value={t.trackID}>{t.trackTitle}</option>)}
+                            </select>
+                        </td>
                         <td>
                             <select value={platformID} onChange={e => setPlatformID(e.target.value)}>
                                 {platforms.map(p => <option key={p.platformID} value={p.platformID}>{p.platformName}</option>)}

@@ -67,11 +67,11 @@ export function AddAlbumPage ({ backendURL }) {
                     <tr>    
                         <td class = 'edit' >
                             <label for="AlbumName"></label>
-                                                    <input type="text" id="AlbumTitle" name="AlbumTitle" placeholder="Album Title" maxLength={50} value={albumTitle} onChange={e=>setAlbumTitle(e.target.value)} required />
+                            <input type="text" id="AlbumTitle" name="AlbumTitle" placeholder="Album Title" maxLength={50} value={albumTitle} onChange={e=>setAlbumTitle(e.target.value)} required />
                         </td>
                         <td class = 'edit' >
                             <label for="ReleaseDate"></label>
-                            <input type="date" id="ReleaseDate" name="ReleaseDate" placeholder="ReleaseDate" maxlength="20" required></input>
+                            <input type="date" value={releaseDate} onChange={e => setReleaseDate(e.target.value)} required />
                         </td>
                         <td class = 'edit' >
                             <label htmlFor="Genre"></label>

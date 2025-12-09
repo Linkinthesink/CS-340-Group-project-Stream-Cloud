@@ -18,10 +18,11 @@ export function AddArtistPage ({ backendURL }) {
 
     const navigate = useNavigate();
 
-    const submit = async () => {
+    const submit = async (e) => {
+        console.log('Submitting new artist:', { name, genre, label });
         e.preventDefault();
         try {
-            const response = await fetch((backendURL) + '/artists', {
+            const response = await fetch(backendURL + '/artists', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ name, genre, label })

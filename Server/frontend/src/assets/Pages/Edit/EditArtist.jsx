@@ -37,7 +37,7 @@ export function EditArtistPage ({ artistToEdit, backendURL }) {
             const response = await fetch((backendURL) + '/artists/' + artist.artistID, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ artistName, genre, label })
+                body: JSON.stringify({ artistName: name, genre, label })
             });
             if (response.status === 200) {
                 alert('Artist updated successfully');
@@ -94,11 +94,11 @@ export function EditArtistPage ({ artistToEdit, backendURL }) {
                     </tr>
 
                 </tbody>
+            </table>
                 <div>
                     <button onClick={submit}>Update</button>
                     <Link to="/artists" style={{ marginLeft: 8 }}><button>Cancel</button></Link>
                 </div>
-            </table>
 
         </div>
     );

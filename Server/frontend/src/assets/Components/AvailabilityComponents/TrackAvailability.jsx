@@ -10,15 +10,16 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import AvailabilityTable from '../AvailabilityComponents/AvalabilityTable';
 
-export function TrackAvailability({ backendURL, trackToEdit }) {
+export function TrackAvailability({ backendURL }) {
     const [trackTitle, setTrackTitle] = useState('');
     const [releaseDate, setReleaseDate] = useState('');
     const [availabilities, setAvailabilities] = useState([]);
+
     const navigate = useNavigate();
     const location = useLocation();
     
     const trackFromState = location?.state;
-    const track = trackFromState || trackToEdit;
+    const track = trackFromState;
 
     useEffect(() => {
         if (!track) {
@@ -34,7 +35,7 @@ export function TrackAvailability({ backendURL, trackToEdit }) {
         const fetchAvailability = async () => {
             if (!track || !track.trackID) return;
             try {
-                const res = await fetch((backendURL ? backendURL : '') + '/tracks-availability/' + track.trackID);
+                const res = await fetch((backendURL) + '/tracks-availability/' + track.trackID);
                 const data = await res.json();
                 setAvailabilities(data.track || []);
             } catch (err) {
@@ -46,14 +47,15 @@ export function TrackAvailability({ backendURL, trackToEdit }) {
 
     if (!track) return null;
 
-
+    //"/tracks-availability/:trackID/:platformID"
     const onDelete = async (id, name) => {
         if (!window.confirm(`Delete availability ${name}?`)) return;
         try {
-            const response = await fetch((backendURL ? backendURL : '') + '/tracks/' + id, { method: 'DELETE' });
+            const response = await fetch((backendURL) + `/tracks-availability/${track.trackID}/${id}`, { method: 'DELETE' });
+            console.log('Delete response status:', response.status);
             if (response.status === 204) {
-                setTracks(tracks.filter(t => t.trackID !== id));
                 alert(`Deleted availability ${name}`);
+                navigate('/availability', { state: track });
             } else {
                 alert('Failed to delete availability');
             }

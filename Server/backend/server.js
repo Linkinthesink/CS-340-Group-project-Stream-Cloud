@@ -281,6 +281,29 @@ app.get("/tracks/:id", async (req, res) => {
   }
 });
 
+// CREATE availability for track
+app.post("/tracks-availability", async (req, res) => {
+  try {
+    const body = req.body;
+    const query = `INSERT INTO trackAvailability (platformID, trackID, url) VALUES (?, ?, ?);`;
+    const [result] = await db.query(query, [
+      body.platformID,
+      body.trackID,
+      body.url,
+    ]);
+    res.status(201).json({ insertedId: result.insertId });
+  } catch (error) {
+    console.error("Error creating track:", error);
+    if (error.code === "ER_DUP_ENTRY") {
+      res.status(409).send("Track availability already exists for this platform.");
+    } else {  
+    res
+      .status(500)
+      .send("An error occurred while executing the database queries.");
+    }
+  }
+});
+
 // GET track availability by id
 app.get("/tracks-availability/:id", async (req, res) => {
   try {
@@ -302,13 +325,14 @@ app.get("/tracks-availability/:id", async (req, res) => {
   }
 });
 
+//`UPDATE tracks SET albumID = ?, trackTitle = ?, releaseDate = ? WHERE trackID = ?;`;
 // UPDATE track availability (url) by trackID and platformID
 app.put("/tracks-availability/:trackID/:platformID", async (req, res) => {
   try {
     const { trackID, platformID } = req.params;
     const body = req.body;
-    const query = `UPDATE trackAvailability SET url = ? WHERE trackID = ? AND platformID = ?;`;
-    const [result] = await db.query(query, [body.url, trackID, platformID]);
+    const query = `UPDATE trackAvailability SET url = ?, trackID = ?, platformID = ? WHERE trackID = ? AND platformID = ?;`;
+    const [result] = await db.query(query, [body.url, body.trackID, body.platformID, trackID, platformID]);
     if (result.affectedRows > 0) res.status(200).json({ updated: true });
     else res.status(404).json({ error: "Track availability not found" });
   } catch (error) {

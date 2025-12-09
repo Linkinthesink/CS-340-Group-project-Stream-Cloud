@@ -7,7 +7,7 @@ Group 86 - Stream Cloud
 */
 
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 export function AddAvailabilityPage({ backendURL }) {
 
@@ -16,6 +16,35 @@ export function AddAvailabilityPage({ backendURL }) {
     const [platforms, setPlatforms] = useState([]);
     
     const navigate = useNavigate();
+    const location = useLocation();
+
+    const trackFromState = location?.state;
+    const track = trackFromState;
+
+    console.log('Adding availability for track:', track);
+
+    const submit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await fetch((backendURL) + '/tracks-availability/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ platformID, trackID: track.trackID, url })
+            });
+            if (response.status === 201) {
+                alert('Availability added successfully');
+                navigate('/availability', { state: track });
+            } else if (response.status === 409) {
+                alert('This availability already exists');
+            } else {
+                alert('Failed to add availability');
+            }
+        } catch (err) {
+            console.error(err);
+            alert('Add failed');
+        }
+    };
+
 
     useEffect(() => {
         const fetchPlatforms = async () => {
@@ -31,27 +60,6 @@ export function AddAvailabilityPage({ backendURL }) {
         fetchPlatforms();
     }, [backendURL, platformID]);
 
-
-
-    const submit = async (e) => {
-        e.preventDefault();
-        try {
-            const response = await fetch((backendURL) + '/platforms', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ platformID, url })
-            });
-            if (response.status === 201) {
-                alert('Availability added successfully');
-                navigate('/tracks');
-            } else {
-                alert('Failed to add availability');
-            }
-        } catch (err) {
-            console.error(err);
-            alert('Add failed');
-        }
-    };
 
     return (
         <div class="table-container">

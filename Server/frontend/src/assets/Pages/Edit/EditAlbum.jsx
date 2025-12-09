@@ -34,7 +34,7 @@ export function EditAlbumPage ({ backendURL, albumToEdit }) {
         }
     }, [album, navigate]);
 
-    const submit = async () => {
+    const submit = async (e) => {
         e.preventDefault();
         try {
             const response = await fetch((backendURL) + '/albums/' + album.albumID, {
