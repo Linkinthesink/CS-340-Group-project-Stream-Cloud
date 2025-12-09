@@ -47,22 +47,22 @@ app.get("/artists", async (req, res) => {
       .send("An error occurred while executing the database queries.");
   }
 });
+// create artist
+app.post('/artists', async (req, res) => {
+    try {
+        const body = req.body;
 
-app.post("/artists", async (req, res) => {
-  try {
-    body = req.body;
+        const query = `CALL CreateArtist(?, ?, ?);`;
+        const params = [body.name, body.genre, body.label];
 
-    const query1 = `INSERT INTO artists (artistName, genre, label) VALUES
-        ('${body.name}', '${body.genre}', '${body.label}');`;
-    const [artist] = await db.query(query1);
-    res.status(201).json({ artist }); // Send the results to the frontend
-  } catch (error) {
-    console.error("Error executing queries:", error);
-    // Send a generic error message to the browser
-    res
-      .status(500)
-      .send("An error occurred while executing the database queries.");
-  }
+        const [result] = await db.query(query, params);
+
+        res.status(201).json({ result });
+
+    } catch (error) {
+        console.error("Error executing stored procedure:", error);
+        res.status(500).send("An error occurred while executing the stored procedure.");
+    }
 });
 
 app.get("/artists/:id", async (req, res) => {
@@ -79,30 +79,23 @@ app.get("/artists/:id", async (req, res) => {
       .send("An error occurred while executing the database queries.");
   }
 });
+// update artist
+app.put('/artists/:id', async (req, res) => {
+    try {
+        const artistID = req.params.id;
+        const { artistName, genre, label } = req.body;
 
-app.put("/artists/:id", async (req, res) => {
-  try {
-    const id = req.params.id;
-    const body = req.body;
-    // Create and execute our queries
-    const query1 = `
-        UPDATE artists
-        SET artistName = ?, genre = ?, label = ?
-        WHERE artistID = ?;`;
-    const [rows] = await db.query(query1, [
-      body.artistName,
-      body.genre,
-      body.label,
-      id,
-    ]);
-    res.status(200).json({ artist: rows }); // Send the results to the frontend
-  } catch (error) {
-    console.error("Error executing queries:", error);
-    // Send a generic error message to the browser
-    res
-      .status(500)
-      .send("An error occurred while executing the database queries.");
-  }
+        await db.query(
+            "CALL UpdateArtist(?, ?, ?, ?)",
+            [artistID, artistName, genre, label]
+        );
+
+        res.status(200).json({ message: "Artist updated successfully" });
+
+    } catch (error) {
+        console.error("Error updating artist:", error);
+        res.status(500).json({ error: "Failed to update artist" });
+    }
 });
 
 app.delete("/artists/:id", async (req, res) => {
@@ -325,7 +318,6 @@ app.get("/tracks-availability/:id", async (req, res) => {
   }
 });
 
-//`UPDATE tracks SET albumID = ?, trackTitle = ?, releaseDate = ? WHERE trackID = ?;`;
 // UPDATE track availability (url) by trackID and platformID
 app.put("/tracks-availability/:trackID/:platformID", async (req, res) => {
   try {
